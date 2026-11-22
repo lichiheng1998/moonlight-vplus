@@ -16,7 +16,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.round
 
-class SeekBarPreference(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
+open class SeekBarPreference(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
 
     var dialogMessageText: String?
     val suffix: String?
@@ -98,7 +98,7 @@ class SeekBarPreference(context: Context, attrs: AttributeSet) : DialogPreferenc
         currentValue = getPersistedInt(def)
     }
 
-    fun refreshCurrentValue() {
+    open fun refreshCurrentValue() {
         currentValue = getPersistedInt(defaultValue)
     }
 

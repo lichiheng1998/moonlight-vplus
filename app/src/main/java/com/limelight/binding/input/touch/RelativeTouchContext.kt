@@ -207,9 +207,19 @@ class RelativeTouchContext(
 
     /** Processes a touch-down and arms tap, double-tap, or drag recognition. */
     override fun touchDownEvent(eventX: Int, eventY: Int, eventTime: Long, isNewFinger: Boolean): Boolean {
-        // Get the view dimensions to scale inputs on this touch
-        xFactor = Game.REFERENCE_HORIZ_RES / targetView.width.toDouble() * sense
-        yFactor = Game.REFERENCE_VERT_RES / targetView.height.toDouble() * sense
+        // Get the view dimensions to scale inputs on this touch.
+        // 宿主显示缩放补偿：灵敏度除以宿主缩放系数（连接建立时自动读取 /displays，
+        // 读不到或为 100% 时不补偿），抵消宿主系统缩放对指针位移的影响。
+        val effectiveSense = sense * 100.0 / conn.hostDisplayScalePercent
+        if (prefConfig.trackpadRawPixelMode) {
+            // 原始像素模式：手指像素直接映射指针位移，横纵天然同速。
+            xFactor = effectiveSense
+            yFactor = effectiveSense
+        }
+        else {
+            xFactor = Game.REFERENCE_HORIZ_RES / targetView.width.toDouble() * sense
+            yFactor = Game.REFERENCE_VERT_RES / targetView.height.toDouble() * sense
+        }
 
         originalTouchX = eventX
         lastTouchX = eventX

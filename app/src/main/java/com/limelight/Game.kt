@@ -2519,6 +2519,7 @@ class Game : ThemedComponentActivity(), SurfaceHolder.Callback,
         if (!streamSession.markConnectionEstablished()) return false
         setMetaKeyCaptureState(grabbedInput)
         orientationManager.connected = true
+        conn?.refreshHostDisplayScale()
         updatePipAutoEnter()
         return true
     }

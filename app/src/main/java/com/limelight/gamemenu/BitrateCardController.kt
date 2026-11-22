@@ -441,7 +441,7 @@ internal class BitrateCardController(
             try {
                 val http = conn.createNvHttp()
                 val catalog = http.getDisplays()
-                val resolved = resolveDisplayScale(catalog.displays, targetDeviceId, http::getDisplayScaleOptions)
+                val resolved = NvHTTP.resolveDisplayScale(catalog.displays, targetDeviceId, http::getDisplayScaleOptions)
                 game.runOnUiThread {
                     if (requestGeneration != displayScaleRequestGeneration) return@runOnUiThread
                     displayScaleState = DisplayScaleState(
@@ -510,6 +510,7 @@ internal class BitrateCardController(
                         loading = false,
                         pendingPercent = null
                     )
+                    (refreshed?.currentScalePercent ?: result.currentScalePercent)?.let { conn.updateHostDisplayScale(it) }
                     emitState()
                     val message = when {
                         result.restartRequired -> game.getString(R.string.display_scale_restart_required)

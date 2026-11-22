@@ -1386,6 +1386,50 @@ class NvHTTP(
             }
         }
 
+        /** Resolve an explicit stream target without ever substituting another display. */
+        internal fun resolveDisplayScale(
+            displays: List<DisplayInfo>,
+            targetDeviceId: String?,
+            loadOptions: (String?, String?) -> DisplayScaleInfo
+        ): DisplayScaleInfo {
+            val explicitTarget = targetDeviceId?.takeIf { it.isNotBlank() }
+            val target = if (explicitTarget == null) {
+                displays.firstOrNull { it.isPrimary } ?: displays.firstOrNull()
+            } else {
+                displays.firstOrNull {
+                    displayIdentityMatches(explicitTarget, it.guid, it.displayName, it.friendlyName)
+                }
+            }
+            val catalogScale = target?.let {
+                DisplayScaleInfo(
+                    displayName = it.displayName,
+                    deviceId = it.guid,
+                    friendlyName = it.friendlyName,
+                    isPrimary = it.isPrimary,
+                    currentScalePercent = it.currentScalePercent,
+                    recommendedScalePercent = it.recommendedScalePercent,
+                    supportedScalePercents = it.supportedScalePercents,
+                    scaleSetSupported = it.scaleSetSupported
+                )
+            }
+            if (catalogScale?.isAvailable == true) return catalogScale
+            val resolved = loadOptions(
+                target?.displayName?.takeIf { it.isNotBlank() },
+                target?.guid?.takeIf { it.isNotBlank() } ?: explicitTarget
+            )
+            val expectedIdentities = listOfNotNull(target?.guid, target?.displayName, explicitTarget)
+                .filter { it.isNotBlank() }
+            if (explicitTarget != null && expectedIdentities.none {
+                    displayIdentityMatches(it, resolved.deviceId, resolved.displayName, resolved.friendlyName)
+                }) {
+                throw DisplayScaleException(404, "display_not_found", "Display unavailable")
+            }
+            return resolved
+        }
+
+        internal fun displayIdentityMatches(target: String, vararg identities: String): Boolean =
+            identities.any { it.equals(target, ignoreCase = true) }
+
         internal fun parseDisplayCatalog(jsonStr: String): DisplayCatalog {
             val json = JSONObject(jsonStr)
             val statusCode = json.optInt("status_code", 0)

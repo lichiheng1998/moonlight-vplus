@@ -156,6 +156,11 @@
     <string name="summary_audio_config_list">向主機請求立體聲、5.1、7.1 或 7.1.4 音訊。7.1.4 需要 Android 12 或更新版本及相容的輸出裝置。</string>
     <string name="category_input_settings">輸入</string>
     <string name="title_checkbox_touchscreen_trackpad">將觸控式螢幕作為觸控板使用</string>
+    <string name="title_trackpad_raw_pixel">觸控板原始像素模式</string>
+    <string name="summary_trackpad_raw_pixel">開啟後，手指滑過的像素直接映射為指標位移（1:1），不再依螢幕尺寸正規化，橫縱速度天然一致。僅在觸控板模式下生效。</string>
+    <string name="title_trackpad_sensitivity">觸控板靈敏度</string>
+    <string name="summary_trackpad_sensitivity">調整觸控板模式下的指標移動速度，預設 100%。與串流中遊戲選單的靈敏度滑條共用同一設定。</string>
+    <string name="suffix_trackpad_sensitivity">%</string>
     <string name="summary_checkbox_touchscreen_trackpad">如果啟用，則將觸控式螢幕作為觸控板使用。 如果停用，則觸控式螢幕直接控制滑鼠游標。</string>
     <string name="title_checkbox_touch_keyboard_auto_invoke">自動彈出電腦觸摸鍵盤</string>
     <string name="title_checkbox_remote_ime_auto_show">遠端文字方塊自動彈出本機鍵盤</string>

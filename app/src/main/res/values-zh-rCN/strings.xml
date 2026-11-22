@@ -273,6 +273,11 @@
     <string name="category_input_settings">输入</string>
     <string name="title_checkbox_touchscreen_trackpad">将触控屏作为触控板使用</string>
     <string name="summary_checkbox_touchscreen_trackpad">如果启用，则将触控屏作为触控板使用。如果禁用，则启用多点触控模式。</string>
+    <string name="title_trackpad_raw_pixel">触控板原始像素模式</string>
+    <string name="summary_trackpad_raw_pixel">开启后，手指划过的像素直接映射为指针位移（1:1），不再按屏幕尺寸归一化，横纵速度天然一致。仅在触控板模式下生效。</string>
+    <string name="title_trackpad_sensitivity">触控板灵敏度</string>
+    <string name="summary_trackpad_sensitivity">调整触控板模式下的指针移动速度，默认 100%。与串流中游戏菜单的灵敏度滑条共用同一设置。</string>
+    <string name="suffix_trackpad_sensitivity">%</string>
     <string name="title_checkbox_touch_keyboard_auto_invoke">自动弹出电脑触摸键盘</string>
     <string name="summary_checkbox_touch_keyboard_auto_invoke">启用后，串流的电脑在文本框获得焦点时会自动弹出其触摸键盘（需要带有虚拟触摸屏的 Sunshine 主机）。</string>
     <string name="title_checkbox_remote_ime_auto_show">远程文本框自动弹出本地键盘</string>

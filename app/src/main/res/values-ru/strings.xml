@@ -454,6 +454,11 @@
     <string name="summary_checkbox_gamepad_motion_fallback">Использовать датчики Android, если геймпад не передаёт движение. На ПК он может определяться как геймпад PlayStation.</string>
     <string name="category_input_settings">Ввод</string>
     <string name="title_checkbox_touchscreen_trackpad">Экран как тачпад</string>
+    <string name="title_trackpad_raw_pixel">Режим исходных пикселей для тачпада</string>
+    <string name="summary_trackpad_raw_pixel">Если включено, движение пальца по экрану напрямую преобразуется в перемещение указателя (1:1), без нормализации по размеру экрана; скорость по горизонтали и вертикали одинакова. Работает только в режиме тачпада.</string>
+    <string name="title_trackpad_sensitivity">Чувствительность тачпада</string>
+    <string name="summary_trackpad_sensitivity">Скорость перемещения указателя в режиме тачпада. По умолчанию 100%. Использует ту же настройку, что и ползунок чувствительности в игровом меню.</string>
+    <string name="suffix_trackpad_sensitivity">%</string>
     <string name="summary_checkbox_touchscreen_trackpad">При включении экран работает как тачпад. При отключении доступен мультитач.</string>
     <string name="title_checkbox_touch_keyboard_auto_invoke">Автовызов клавиатуры ПК</string>
     <string name="summary_checkbox_touch_keyboard_auto_invoke">Показывать сенсорную клавиатуру ПК при выборе текстового поля (Sunshine с виртуальным сенсорным экраном).</string>
