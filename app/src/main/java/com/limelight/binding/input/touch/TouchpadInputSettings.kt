@@ -44,5 +44,11 @@ internal class TouchpadInputSettings(private val game: Game) {
         ElementController.setMouseScrollRepeatInterval(120 - values.wheelSpeed)
     }
 
+    /** 恢复为全局存储的灵敏度（用于 Crown 方案的会话级覆盖被关闭时）。 */
+    fun resetToStored() {
+        values = TouchpadInputPreferences.read(game)
+        apply()
+    }
+
     fun save() = TouchpadInputPreferences.save(game, values)
 }
