@@ -2414,7 +2414,8 @@ class Game : ThemedComponentActivity(), SurfaceHolder.Callback,
     }
 
     fun updateTouchpadSensitivity(percent: Int) {
-        touchpadInputSettings.setSensitivity(percent)
+        // Crown 方案的灵敏度仅作会话级覆盖，不写入全局存储，避免污染用户的全局设置。
+        touchpadInputSettings.setSensitivity(percent, persist = false)
     }
 
     fun updateCrownWheelSpeed(speed: Int) {
@@ -3847,6 +3848,8 @@ class Game : ThemedComponentActivity(), SurfaceHolder.Callback,
                 controllerManager?.show()
             } else {
                 controllerManager?.hide()
+                // Crown 关闭后，方案的会话级灵敏度覆盖随之失效，恢复全局设置。
+                touchpadInputSettings.resetToStored()
             }
         }
 

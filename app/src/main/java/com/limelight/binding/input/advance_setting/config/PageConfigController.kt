@@ -395,7 +395,9 @@ class PageConfigController(private val controllerManager: ControllerManager, pri
     private fun loadMouseSense(applyInputSettings: Boolean) {
         bindProfileParameter(R.id.mouse_sense_number_seekbar, R.id.apply_touchpad_sensitivity_switch,
             COLUMN_INT_TOUCH_SENSE, COLUMN_APPLY_TOUCHPAD_SENSITIVITY, 100, 1000,
-            applyInputSettings) { value -> controllerManager.touchController!!.adjustTouchSense(value) }
+            applyInputSettings,
+            applier = { value -> controllerManager.touchController!!.adjustTouchSense(value) },
+            onOverrideDisabled = { (context as? Game)?.touchpadInputSettings?.resetToStored() })
     }
 
     private fun loadMouseWheelSpeed(applyInputSettings: Boolean) {
@@ -410,12 +412,13 @@ class PageConfigController(private val controllerManager: ControllerManager, pri
 
     private fun bindProfileParameter(sliderId: Int, switchId: Int, valueColumn: String, flagColumn: String,
                                      defaultValue: Int, maximum: Int, applyInputSettings: Boolean,
+                                     onOverrideDisabled: (() -> Unit)? = null,
                                      applier: ParameterApplier) {
         val slider = pageConfig.findViewById<NumberSeekbar>(sliderId)
         val value = Math.max(1, Math.min(maximum, (controllerManager.superConfigDatabaseHelper!!
             .queryConfigAttribute(currentConfigId, valueColumn, defaultValue.toLong()) as Long).toInt()))
         slider.setValueWithNoCallBack(value)
-        bindApplySwitch(switchId, flagColumn, slider)
+        bindApplySwitch(switchId, flagColumn, slider, onOverrideDisabled)
         if (applyInputSettings && shouldApply(flagColumn)) applier.apply(value)
         slider.setOnNumberSeekbarChangeListener(object : NumberSeekbar.OnNumberSeekbarChangeListener {
             private var trackingTouch = false
@@ -449,7 +452,7 @@ class PageConfigController(private val controllerManager: ControllerManager, pri
         return java.lang.Long.valueOf(1L) == value
     }
 
-    private fun bindApplySwitch(viewId: Int, column: String, seekbar: NumberSeekbar) {
+    private fun bindApplySwitch(viewId: Int, column: String, seekbar: NumberSeekbar, onOverrideDisabled: (() -> Unit)? = null) {
         val toggle = pageConfig.findViewById<SwitchCompat>(viewId)
         AppSwitchStyle.apply(toggle)
         toggle.setOnCheckedChangeListener(null)
@@ -460,6 +463,7 @@ class PageConfigController(private val controllerManager: ControllerManager, pri
             values.put(column, if (checked) 1 else 0)
             controllerManager.superConfigDatabaseHelper!!.updateConfig(currentConfigId, values)
             seekbar.setControlsEnabled(checked)
+            if (!checked) onOverrideDisabled?.invoke()
         }
     }
 
