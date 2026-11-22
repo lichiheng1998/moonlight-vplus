@@ -511,6 +511,11 @@
     <string name="category_input_settings">Input</string>
     <string name="title_checkbox_touchscreen_trackpad">Use the touchscreen as a trackpad</string>
     <string name="summary_checkbox_touchscreen_trackpad">If enabled, the touchscreen acts like a trackpad. If disabled, multi-point touch will be enabled.</string>
+    <string name="title_trackpad_raw_pixel">Raw pixel trackpad mode</string>
+    <string name="summary_trackpad_raw_pixel">Map finger pixels directly to pointer movement (1:1) without screen-size normalization. Horizontal and vertical speeds are inherently consistent. Only applies in trackpad mode.</string>
+    <string name="title_trackpad_sensitivity">Trackpad sensitivity</string>
+    <string name="summary_trackpad_sensitivity">Pointer movement speed in trackpad mode. Default 100%. Shares the same setting with the in-stream game menu sensitivity slider.</string>
+    <string name="suffix_trackpad_sensitivity">%</string>
     <string name="title_checkbox_touch_keyboard_auto_invoke">Auto-invoke the PC touch keyboard</string>
     <string name="summary_checkbox_touch_keyboard_auto_invoke">When enabled, the streamed PC shows its touch keyboard when a text field gains focus (Sunshine hosts with the virtual touchscreen).</string>
     <string name="title_checkbox_remote_ime_auto_show">Auto-open the local keyboard for remote text fields</string>

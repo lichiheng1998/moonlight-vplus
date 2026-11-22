@@ -867,6 +867,40 @@ open class NvConnection(
         fun onFailure(errorMessage: String)
     }
 
+    /** 宿主当前显示缩放系数（百分比）；100 表示无缩放或未知（不做补偿）。 */
+    @Volatile
+    var hostDisplayScalePercent = 100
+        private set
+
+    /** 游戏菜单显示卡片在修改缩放后同步最新值，供触控位移补偿使用。 */
+    internal fun updateHostDisplayScale(percent: Int) {
+        if (percent > 0) hostDisplayScalePercent = percent
+    }
+
+    /**
+     * 后台查询宿主当前捕获显示器的系统缩放系数（Foundation Sunshine 的 /displays 扩展）。
+     * 仅在宿主返回有效值时更新 [hostDisplayScalePercent]；标准 Sunshine / 非 Windows
+     * 宿主不携带该字段，查询失败或为空时保持 100，不做补偿。
+     */
+    fun refreshHostDisplayScale() {
+        Thread {
+            try {
+                val http = createNvHttp()
+                val catalog = http.getDisplays()
+                val resolved = NvHTTP.resolveDisplayScale(catalog.displays, displayName(), http::getDisplayScaleOptions)
+                val scale = resolved.currentScalePercent
+                if (scale != null && scale > 0) {
+                    hostDisplayScalePercent = scale
+                    LimeLog.info("Host display scale: $scale%")
+                } else {
+                    LimeLog.info("Host display scale unavailable; no compensation")
+                }
+            } catch (e: Exception) {
+                LimeLog.info("Host display scale query failed: ${e.message}")
+            }
+        }.start()
+    }
+
     fun rotateDisplay(angle: Int, callback: DisplayRotationCallback?) {
         Thread {
             val h: NvHTTP

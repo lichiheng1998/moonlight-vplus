@@ -201,6 +201,8 @@ class PreferenceConfiguration internal constructor(val supportsDesktopMouseMode:
     /** Sync local clipboard images (PNG) with the host. */
     var enableClipboardSyncImage = false
     var touchscreenTrackpad = false
+    /** 触控板原始像素模式：手指像素 1:1 映射指针位移，不按屏幕尺寸归一化。 */
+    var trackpadRawPixelMode = false
     /** Use the device touchscreen as the touchpad of a virtual DualSense controller. */
     var screenDs5Touchpad = false
     /** Legacy tap-to-click; standard mode uses double-tap, holding the second contact to hold. */
@@ -416,6 +418,7 @@ class PreferenceConfiguration internal constructor(val supportsDesktopMouseMode:
                     pointerVelocityFactor.roundToInt()
                 )
                 .putBoolean(TOUCHSCREEN_TRACKPAD_PREF_STRING, touchscreenTrackpad)
+                .putBoolean(TRACKPAD_RAW_PIXEL_PREF_STRING, trackpadRawPixelMode)
                 .putBoolean(TOUCH_KEYBOARD_AUTO_INVOKE_PREF_STRING, touchKeyboardAutoInvoke)
                 .putBoolean(REMOTE_IME_AUTO_SHOW_PREF_STRING, remoteImeAutoShow)
                 .putBoolean(ENABLE_NATIVE_MOUSE_POINTER_PREF_STRING, enableNativeMousePointer)
@@ -628,6 +631,7 @@ class PreferenceConfiguration internal constructor(val supportsDesktopMouseMode:
         copy.hevcLowLatencyMode = this.hevcLowLatencyMode
         copy.enableDoubleClickDrag = this.enableDoubleClickDrag
         copy.enableLocalCursorRendering = this.enableLocalCursorRendering
+        copy.trackpadRawPixelMode = this.trackpadRawPixelMode
         copy.optimizeHardwareTouchpad = this.optimizeHardwareTouchpad
         copy.hardwareTouchpadPointerSpeedPercent = this.hardwareTouchpadPointerSpeedPercent
         copy.gyroToRightStick = this.gyroToRightStick
@@ -829,6 +833,7 @@ class PreferenceConfiguration internal constructor(val supportsDesktopMouseMode:
         // ---- Public pref key constants ----
         const val RESOLUTION_PREF_STRING = "list_resolution"
         const val TOUCHSCREEN_TRACKPAD_PREF_STRING = "checkbox_touchscreen_trackpad"
+        const val TRACKPAD_RAW_PIXEL_PREF_STRING = "checkbox_trackpad_raw_pixel"
         const val TOUCH_KEYBOARD_AUTO_INVOKE_PREF_STRING = "checkbox_touch_keyboard_auto_invoke"
         const val REMOTE_IME_AUTO_SHOW_PREF_STRING = "checkbox_remote_ime_auto_show"
         const val SCREEN_DS5_TOUCHPAD_PREF_STRING = "checkbox_screen_ds5_touchpad"
@@ -1731,6 +1736,7 @@ class PreferenceConfiguration internal constructor(val supportsDesktopMouseMode:
             )
             config.enableEnhancedTouch = touchModeState.enhancedTouch
             config.touchscreenTrackpad = touchModeState.touchscreenTrackpad
+            config.trackpadRawPixelMode = prefs.getBoolean(TRACKPAD_RAW_PIXEL_PREF_STRING, false)
             config.enableNativeMousePointer = touchModeState.nativeMousePointer
             config.screenDs5Touchpad = touchModeState.screenDs5Touchpad
             config.screenDs5SingleTapToClick = prefs.getBoolean(SCREEN_DS5_SINGLE_TAP_TO_CLICK_PREF_STRING, false)

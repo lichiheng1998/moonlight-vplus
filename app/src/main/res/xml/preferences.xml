@@ -813,6 +813,22 @@
                     android:summary="@string/summary_checkbox_touchscreen_trackpad"
                     android:defaultValue="true" />
                 <CheckBoxPreference
+                    android:key="checkbox_trackpad_raw_pixel"
+                    android:title="@string/title_trackpad_raw_pixel"
+                    android:summary="@string/summary_trackpad_raw_pixel"
+                    android:defaultValue="false" />
+                <com.limelight.preferences.TrackpadSensitivityPreference
+                    android:key="seekbar_trackpad_sensitivity"
+                    seekbar:min="1"
+                    android:max="1000"
+                    seekbar:step="1"
+                    seekbar:keyStep="10"
+                    seekbar:divisor="1"
+                    android:defaultValue="100"
+                    android:text="@string/suffix_trackpad_sensitivity"
+                    android:summary="@string/summary_trackpad_sensitivity"
+                    android:title="@string/title_trackpad_sensitivity" />
+                <CheckBoxPreference
                     android:key="checkbox_screen_ds5_single_tap_to_click"
                     android:title="@string/title_ds5_single_tap_to_click"
                     android:summary="@string/summary_ds5_single_tap_to_click"
