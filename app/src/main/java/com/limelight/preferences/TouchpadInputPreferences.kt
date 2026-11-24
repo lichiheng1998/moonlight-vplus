@@ -9,7 +9,18 @@ object TouchpadInputPreferences {
     const val SENSITIVITY = "touch_sense"
     const val SCROLL_SPEED = "touchpad_scroll_speed_percent"
     const val WHEEL_SPEED = "mouse_wheel_speed"
+    const val RAW_PIXEL_MODE = "touchpad_raw_pixel_mode"
+
     val PORTABLE_KEYS = setOf(SENSITIVITY, SCROLL_SPEED, WHEEL_SPEED)
+
+    internal fun readRawPixelMode(context: Context): Boolean =
+        context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE).getBoolean(RAW_PIXEL_MODE, false)
+
+    internal fun setRawPixelMode(context: Context, enabled: Boolean) {
+        context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE).edit {
+            putBoolean(RAW_PIXEL_MODE, enabled)
+        }
+    }
 
     fun read(context: Context): TouchpadInputValues {
         val prefs = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)

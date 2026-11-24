@@ -68,6 +68,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceGroupAdapter
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreferenceCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -3280,6 +3281,11 @@ class StreamSettings : ThemedAppCompatActivity() {
                 }
             }
             setupInputModePresetPreference()
+            findPreference<SwitchPreferenceCompat>(TouchpadInputPreferences.RAW_PIXEL_MODE)
+                ?.setOnPreferenceChangeListener { _, newValue ->
+                    TouchpadInputPreferences.setRawPixelMode(requireContext(), newValue as Boolean)
+                    true
+                }
             setupRemoteDesktopMouseModePreference()
             setupPerfOverlayPreferences()
             setupMicrophoneButtonPositionPreference()
@@ -4154,6 +4160,10 @@ class StreamSettings : ThemedAppCompatActivity() {
             }
             if (changedKey == null || changedKey in LegacySettingsModeStore.modeKeys) {
                 refreshModeSelectors()
+            }
+            if (changedKey == null) {
+                findPreference<SwitchPreferenceCompat>(TouchpadInputPreferences.RAW_PIXEL_MODE)
+                    ?.isChecked = TouchpadInputPreferences.readRawPixelMode(requireContext())
             }
             if (changedKey == null || changedKey in setOf(
                     "checkbox_adaptive_bitrate", "list_abr_mode",

@@ -2,4 +2,6 @@
 <resources>
     <string name="game_menu_touchpad_sensitivity">触控板灵敏度</string>
     <string name="game_menu_touchpad_scroll_speed">双指滚动速度</string>
+    <string name="title_touchpad_raw_pixel_mode">触控板原始像素模式</string>
+    <string name="summary_touchpad_raw_pixel_mode">跳过基于固定分辨率的指针位移归一化，解决触控板模式下宽高比明显偏离 16:9 时横纵轴灵敏度不一致的问题。</string>
 </resources>

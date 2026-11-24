@@ -35,10 +35,12 @@ internal class TouchpadInputSettings(private val game: Game) {
     }
 
     fun apply() {
+        val rawPixelMode = TouchpadInputPreferences.readRawPixelMode(game)
         game.relativeTouchContextMap.forEach { context ->
             (context as? RelativeTouchContext)?.apply {
                 adjustMsense(values.sensitivity / 100.0)
                 adjustScrollSpeed(values.scrollSpeed)
+                adjustRawPixelMode(rawPixelMode)
             }
         }
         ElementController.setMouseScrollRepeatInterval(120 - values.wheelSpeed)

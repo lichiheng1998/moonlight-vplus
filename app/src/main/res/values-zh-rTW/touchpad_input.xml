@@ -2,4 +2,6 @@
 <resources>
     <string name="game_menu_touchpad_sensitivity">觸控板靈敏度</string>
     <string name="game_menu_touchpad_scroll_speed">雙指捲動速度</string>
+    <string name="title_touchpad_raw_pixel_mode">觸控板原始像素模式</string>
+    <string name="summary_touchpad_raw_pixel_mode">略過以固定解析度為基準的指標位移正規化，解決觸控板模式下長寬比明顯偏離 16:9 時，水平與垂直靈敏度不一致的問題。</string>
 </resources>

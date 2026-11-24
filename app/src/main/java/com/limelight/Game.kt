@@ -1520,6 +1520,7 @@ class Game : ThemedComponentActivity(), SurfaceHolder.Callback,
         super.onResume()
         // Extreme Resume can keep the connection alive and skip prepareConnection().
         if (connected) {
+            touchpadInputSettings.apply()
             val latest = PreferenceConfiguration.readPreferences(this, currentTargetDisplay)
             refreshDesktopMouseMode(
                 latest.absoluteMouseMode,

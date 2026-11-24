@@ -30,6 +30,7 @@ class RelativeTouchContext(
     private var xFactor = 0.6
     private var yFactor = 0.6
     private var sense = 1.0
+    private var rawPixelMode = false
     private var scrollSpeedPercent = 100
     private var gestureScrollSpeedPercent = 100
     private val scrollScaler = TouchpadScrollScaler()
@@ -208,8 +209,14 @@ class RelativeTouchContext(
     /** Processes a touch-down and arms tap, double-tap, or drag recognition. */
     override fun touchDownEvent(eventX: Int, eventY: Int, eventTime: Long, isNewFinger: Boolean): Boolean {
         // Get the view dimensions to scale inputs on this touch
-        xFactor = Game.REFERENCE_HORIZ_RES / targetView.width.toDouble() * sense
-        yFactor = Game.REFERENCE_VERT_RES / targetView.height.toDouble() * sense
+        if (rawPixelMode) {
+            // Don't scale the delta if sensitivity set to 1.0
+            xFactor = sense
+            yFactor = sense
+        } else {
+            xFactor = Game.REFERENCE_HORIZ_RES / targetView.width.toDouble() * sense
+            yFactor = Game.REFERENCE_VERT_RES / targetView.height.toDouble() * sense
+        }
 
         originalTouchX = eventX
         lastTouchX = eventX
@@ -684,6 +691,10 @@ class RelativeTouchContext(
 
     fun adjustMsense(sense: Double) {
         this.sense = sense
+    }
+
+    fun adjustRawPixelMode(enabled: Boolean) {
+        rawPixelMode = enabled
     }
 
     fun adjustScrollSpeed(percent: Int) {

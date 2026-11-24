@@ -2,4 +2,6 @@
 <resources>
     <string name="game_menu_touchpad_sensitivity">Touchpad sensitivity</string>
     <string name="game_menu_touchpad_scroll_speed">Two-finger scrolling speed</string>
+    <string name="title_touchpad_raw_pixel_mode">Touchpad raw pixel mode</string>
+    <string name="summary_touchpad_raw_pixel_mode">Skip fixed-resolution normalization of pointer movement to keep horizontal and vertical sensitivity consistent in trackpad mode when the aspect ratio differs significantly from 16:9.</string>
 </resources>

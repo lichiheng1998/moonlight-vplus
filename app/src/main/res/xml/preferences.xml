@@ -812,6 +812,11 @@
                     android:title="@string/title_checkbox_touchscreen_trackpad"
                     android:summary="@string/summary_checkbox_touchscreen_trackpad"
                     android:defaultValue="true" />
+                <SwitchPreferenceCompat
+                    android:key="touchpad_raw_pixel_mode"
+                    android:title="@string/title_touchpad_raw_pixel_mode"
+                    android:summary="@string/summary_touchpad_raw_pixel_mode"
+                    android:persistent="false" />
                 <CheckBoxPreference
                     android:key="checkbox_screen_ds5_single_tap_to_click"
                     android:title="@string/title_ds5_single_tap_to_click"
