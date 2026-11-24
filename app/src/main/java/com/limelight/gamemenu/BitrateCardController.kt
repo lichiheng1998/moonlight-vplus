@@ -444,6 +444,7 @@ internal class BitrateCardController(
                 val resolved = resolveDisplayScale(catalog.displays, targetDeviceId, http::getDisplayScaleOptions)
                 game.runOnUiThread {
                     if (requestGeneration != displayScaleRequestGeneration) return@runOnUiThread
+                    conn.updateHostDisplayScale(resolved.currentScalePercent)
                     displayScaleState = DisplayScaleState(
                         available = resolved.isAvailable,
                         friendlyName = resolved.friendlyName,

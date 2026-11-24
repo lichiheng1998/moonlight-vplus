@@ -21,6 +21,7 @@ import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import java.util.concurrent.Semaphore
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
@@ -66,6 +67,10 @@ open class NvConnection(
     @Volatile
     private var stopped = false
     private val connectionSlotOwned = AtomicBoolean(false)
+    private val hostDisplayScale = AtomicReference<Int?>(null)
+
+    internal val hostDisplayScalePercent: Int
+        get() = hostDisplayScale.get() ?: 100
 
     @Volatile
     var serverVersion: String? = null
@@ -129,6 +134,37 @@ open class NvConnection(
 
     /** Host display device id selected when the stream was started, if any. */
     fun displayName(): String? = context.displayName
+
+    fun loadInitialHostDisplayScale() {
+        Thread({
+            try {
+                val displays = createNvHttp().getDisplays().displays
+                val targetId = displayName()?.takeIf { it.isNotBlank() }
+                val target = if (targetId == null) {
+                    displays.firstOrNull { it.isPrimary } ?: displays.firstOrNull()
+                } else {
+                    displays.firstOrNull {
+                        targetId.equals(it.guid.ifEmpty { it.name }, ignoreCase = true)
+                    }
+                }
+                val percent = target?.currentScalePercent
+                if (!stopped && percent != null && percent > 0) {
+                    // A newer value from the display menu takes precedence over this lookup.
+                    hostDisplayScale.compareAndSet(null, percent)
+                }
+            } catch (e: InterruptedException) {
+                Thread.currentThread().interrupt()
+            } catch (e: IOException) {
+                LimeLog.info("Host display scale unavailable: ${e.javaClass.simpleName}")
+            }
+        }, "host-display-scale").start()
+    }
+
+    fun updateHostDisplayScale(percent: Int?) {
+        if (!stopped && percent != null && percent > 0) {
+            hostDisplayScale.set(percent)
+        }
+    }
 
     /** Serialize against stop and never target the process-wide native connection after losing ownership. */
     @Synchronized

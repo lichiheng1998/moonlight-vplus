@@ -210,9 +210,9 @@ class RelativeTouchContext(
     override fun touchDownEvent(eventX: Int, eventY: Int, eventTime: Long, isNewFinger: Boolean): Boolean {
         // Get the view dimensions to scale inputs on this touch
         if (rawPixelMode) {
-            // Don't scale the delta if sensitivity set to 1.0
-            xFactor = sense
-            yFactor = sense
+            val hostScale = conn.hostDisplayScalePercent / 100.0
+            xFactor = sense / hostScale
+            yFactor = xFactor
         } else {
             xFactor = Game.REFERENCE_HORIZ_RES / targetView.width.toDouble() * sense
             yFactor = Game.REFERENCE_VERT_RES / targetView.height.toDouble() * sense
